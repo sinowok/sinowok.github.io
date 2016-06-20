@@ -776,12 +776,27 @@ screen and (min-width: 1000px) and (-webkit-max-device-pixel-ratio: 1.5)
     
     
 function visit() {
-    FB.api(
-       "/me/objects/restaurant.restaurant",
-    "POST",
-    {
-        "object": "{\"fb:app_id\":\"1758879687691866\",\"og:type\":\"restaurant.restaurant\",\"og:url\":\"https://www.facebook.com/sinowok/",\"og:title\":\"Sample Restaurant\",\"og:image\":\"https:\\\/\\\/s-static.ak.fbcdn.net\\\/images\\\/devsite\\\/attachment_blank.png\",\"og:description\":\"This place rocks\",\"restaurant:contact_info:street_address\":\"1601 Willow Rd.\",\"restaurant:contact_info:locality\":\"Menlo Park\",\"restaurant:contact_info:region\":\"California\",\"restaurant:contact_info:postal_code\":\"94025\",\"restaurant:contact_info:country_name\":\"United States\",\"restaurant:contact_info:email\":\"brian\\u0040example.com\",\"restaurant:contact_info:phone_number\":\"212-555-1234\",\"restaurant:contact_info:website\":\"http:\\\/\\\/www.facebook.com\",\"place:location:latitude\":\"37.484828\",\"place:location:longitude\":\"-122.148283\"}"
-    },
+FB.api(
+  'me/objects/restaurant.restaurant',
+  'post',
+  {'object': {
+    'og:url': 'http://samples.ogp.me/440002909390231',
+    'og:title': 'Sample Restaurant',
+    'og:type': 'restaurant.restaurant',
+    'og:image': 'https://s-static.ak.fbcdn.net/images/devsite/attachment_blank.png',
+    'og:description': 'This place rocks',
+    'fb:app_id': '1758879687691866',
+    'restaurant:contact_info:street_address': '1601 Willow Rd.',
+    'restaurant:contact_info:locality': 'Menlo Park',
+    'restaurant:contact_info:region': 'California',
+    'restaurant:contact_info:postal_code': '94025',
+    'restaurant:contact_info:country_name': 'United States',
+    'restaurant:contact_info:email': 'brian@example.com',
+    'restaurant:contact_info:phone_number': '212-555-1234',
+    'restaurant:contact_info:website': 'http://www.facebook.com',
+    'place:location:latitude': '37.484828',
+    'place:location:longitude': '-122.148283'
+  }},
        function(response) {
          if (!response) {
            alert('Error occurred.');
