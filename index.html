@@ -780,7 +780,9 @@ function visit() {
        'https://graph.facebook.com/me/sinowok:check_in',
        'post',
        {
-        "restaurant": "https://www.facebook.com/sinowok"
+        "restaurant": "https://www.facebook.com/sinowok",
+        'fb:explicitly_shared' : 'true',
+        privacy: {'value': 'EVERYONE'} },
        },
        function(response) {
          if (!response) {
