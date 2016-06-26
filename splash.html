@@ -1,21 +1,172 @@
-<html>
-<head><title>Welcome to the NoCat Authentication System running DD-WRT</title></head>
-<body bgcolor=#FFFFFF text=000000>
-<form method="POST" action="$action">
+<html><head><title>Slide to unlock WiFi </title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+  background: #eee;
+}
+
+.iphone-slider {
+	width: 300px;
+	height: 50px;
+	/* set the wrapper as the anchor element for positioning */
+	position: absolute;
+	top: 50%;
+	text-align: center;
+}
+
+.iphone-slider input {
+    -webkit-appearance: none;
+    width: 100%;
+    background: #ddd;
+    padding: 3px;
+    border: 1px solid #525252;
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
+    background-image: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0, #000000),
+        color-stop(1, #222222)
+    );
+}
+
+.iphone-slider input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    
+    /* position the button on top of everything */
+    z-index: 100;
+    position: relative;
+    
+    width: 68px;
+    height: 44px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    
+    /* arrow and button gradient */
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAYCAYAAAB0kZQKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAASJJREFUeNpi7OnpYaAC0AXiF0D8mhzNTAzUASBHnAdim4F0BAhIA/EBIC4aSEeAADMQ9wLxRiDmHyhHwIAfNHqMiXZEcXExGJMCiNCjCMTHgDiTkFmM////p4rXe3t78Rm0DIjTgfgLNkkWoGZQij7MQFsQBY2aICC+Rq80gQ2oA/EZIE4YSEeAACcQzwfimVD2gDgCBtKgiVZlIB0BAgbQbBwykI5A5I4BtPsaNLfcHKiQWADEJiAHDERIfAfiLKgjBiQ67kCD/zK2NAFqjMyi0AJQVnPCI78GiBNxFttQF6ZToVjG5ohfoLoOiKcMVO54BA3+swPVntgKxIbEOIAWjvgLxJVA7APE7waisHoKxBFAfGSgSszL0MLnBTmaAQIMAKg/OsrT7JG8AAAAAElFTkSuQmCC'),
+    -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0, #fefefe),
+        color-stop(0.49, #dddddd),
+        color-stop(0.51, #d1d1d1),
+        color-stop(1, #a1a1a1)
+    );
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+.iphone-slider span {
+	/* position the text just under the button in the stacking order */
+	position: absolute;
+	z-index: 99;
+	top: 30%;
+	left: 30%;
+	font-family: "Helvetica Neue", Helvetica, sans;
+	font-size: 24px;
+	color: white;
+	cursor: default;
+	-webkit-user-select: none;
+	/* semitransparent gradient mask to animate over the text */
+	-webkit-mask-image: -webkit-gradient(
+        linear,
+        left top,
+        right top,
+        color-stop(0, rgba(0,0,0,0.3)),
+        color-stop(0.45, rgba(0,0,0,0.3)),
+        color-stop(0.5, rgba(0,0,0,1)),
+        color-stop(0.55, rgba(0,0,0,0.3)),
+        color-stop(1, rgba(0,0,0,0.3))
+    );
+	-webkit-mask-size: 1000px;
+	-webkit-mask-repeat: no-repeat;
+	-webkit-animation-timing-function: ease-in-out;
+	-webkit-animation: text-spotlight 4s infinite;
+}
+
+/* animate the webkit-mark over the text */
+@-webkit-keyframes text-spotlight {
+  0% {
+    -webkit-mask-position: -800px;
+  }
+  
+  100% {
+    -webkit-mask-position: 0px;
+  }
+}
+
+
+div {
+	max-width:100%;
+	height:auto;
+}
+
+</style>
+</head>
+
+<body>
+<form id ="myForm" action="$action" method="POST">
 <input type="hidden" name="mode_login">
 <input type="hidden" name="redirect" value="$redirect">
 <input type="hidden" name="accept_terms" value="yes">
-<table border=0 cellpadding=5 cellspacing=0>
-<tr>
-  <td>Welcome to <a href="/status">$GatewayName</a>.</td>
-</tr>
-<tr>
-      <td align=center height="23"><input type="submit" value="Login/Enter">
-</table>
-<!--
-There are currently $ConnectionCount user(s) connected.<BR>
-The last connection was at: $LastConnectionTime.
--->
+
+    <div class="iphone-slider" width="300" height="50">
+        <input type="range" value="0"></input>
+        <span>slide to unlock WiFi</span>
+    </div>
+
 </form>
+
+<script>
+(function() {
+  // variable declarations
+  var slider, sliderInput, sliderButton, sliderText, sliderTimeout, sliderOnchange, unlockCheck;
+  
+  // cache our DOM elements in variables
+  slider = document.querySelector('.iphone-slider');
+  sliderInput = slider.querySelector('input');
+  sliderButton = sliderInput.querySelector('::-webkit-slider-thumb');
+  sliderText = slider.querySelector('span');
+  
+  /*
+      Check if it's been unlocked, else return the
+      button back to the left side (default position).
+  */
+  unlockCheck = function() {
+    if(sliderInput.value == 100) {
+      sliderText.innerHTML = 'Unlocked!';
+      sliderInput.value = 0;
+      sliderText.style.opacity = 1;
+//	  window.location.href = "http://www.google.com";
+document.getElementById("myForm").submit();
+    } else {
+      setTimeout(function(){
+        sliderInput.value = 0;
+        sliderText.style.opacity = 1;
+      }, 1000);
+    }
+  };
+  
+  sliderOnchange = function() {
+    /*
+        Set the opacity of the text relative to the value
+        on the input range.
+    */
+    sliderText.style.opacity = ((100 - sliderInput.value) / 200);
+    
+    /*
+        Add a timeout to prevent the function from being called
+        on EVERY onchange event.
+    */
+    clearTimeout(sliderTimeout);
+    sliderTimeout = setTimeout(unlockCheck, 300);
+  }
+  
+  slider.onchange = sliderOnchange;
+})();
+</script>
+
 </body>
 </html>
